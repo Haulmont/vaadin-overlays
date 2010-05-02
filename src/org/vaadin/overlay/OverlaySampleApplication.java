@@ -15,8 +15,9 @@ public class OverlaySampleApplication extends Application {
 
     @Override
     public void init() {
-        Window mainWindow = new Window("Overlay Sample Application");
+        final Window mainWindow = new Window("Overlay Sample Application");
         setMainWindow(mainWindow);
+
 
         Button button = new Button("Sample Button");
         mainWindow.addComponent(button);
@@ -30,7 +31,24 @@ public class OverlaySampleApplication extends Application {
         io.setImage(res);
         io.setComponentAnchor(Alignment.TOP_LEFT); // Top left of the button
         io.setOverlayAnchor(Alignment.MIDDLE_CENTER); // Center of the image
+        io.setClickListener(new OverlayClickListener() {
+
+            public void overlayClicked(CustomClickableOverlay overlay) {
+                mainWindow.showNotification("ImageOverlay Clicked!");
+            }
+        });
         mainWindow.addComponent(io);
+
+        final TextOverlay to = new TextOverlay(button, "New!");
+        to.setComponentAnchor(Alignment.TOP_LEFT); // Top left of the button
+        to.setOverlayAnchor(Alignment.MIDDLE_CENTER); // Center of the image
+        to.setClickListener(new OverlayClickListener() {
+
+            public void overlayClicked(CustomClickableOverlay overlay) {
+                mainWindow.showNotification("TextOverlay Clicked!");
+            }
+        });
+        mainWindow.addComponent(to);
 
         button.addListener(new Button.ClickListener() {
 
@@ -63,9 +81,9 @@ public class OverlaySampleApplication extends Application {
                 } else if (Alignment.MIDDLE_LEFT == a) {
                     a = Alignment.TOP_LEFT;
                     s = "TOP_LEFT";
-                                   }
+                }
                 io.setComponentAnchor(a);
-                label.setValue("Alignment."+s);
+                label.setValue("Alignment." + s);
             }
         });
 

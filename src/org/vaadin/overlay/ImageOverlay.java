@@ -14,7 +14,7 @@ import com.vaadin.ui.Embedded;
  * @author Sami Ekblad
  *
  */
-public class ImageOverlay extends CustomOverlay {
+public class ImageOverlay extends CustomClickableOverlay {
     private static final long serialVersionUID = -4604714578885982118L;
     private Resource imageResource;
 

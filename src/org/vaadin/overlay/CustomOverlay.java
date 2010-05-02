@@ -1,8 +1,10 @@
 package org.vaadin.overlay;
 
+import java.util.Iterator;
+
 import com.vaadin.terminal.PaintException;
 import com.vaadin.terminal.PaintTarget;
-import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 
@@ -15,7 +17,7 @@ import com.vaadin.ui.Component;
  * This is the server-side part of the component.
  */
 @com.vaadin.ui.ClientWidget(org.vaadin.overlay.client.ui.VCustomOverlay.class)
-public class CustomOverlay extends AbstractComponent {
+public class CustomOverlay extends AbstractComponentContainer {
     private static final long serialVersionUID = 4484572264185406155L;
 
     private Component overlay = null;
@@ -39,10 +41,10 @@ public class CustomOverlay extends AbstractComponent {
      *
      * Use {@link #setOverlay(Component)} to add overlay content.
      */
-    public CustomOverlay(Component overlay, Component onComponent) {
+    public CustomOverlay(Component overlay, Component refenceComponent) {
         super();
+        setComponent(refenceComponent);
         setOverlay(overlay);
-        setComponent(onComponent);
     }
 
     @Override
@@ -115,7 +117,13 @@ public class CustomOverlay extends AbstractComponent {
     }
 
     public void setOverlay(Component overlay) {
+        if (this.overlay != null) {
+            super.removeComponent(this.overlay);
+        }
         this.overlay = overlay;
+        if (this.overlay != null) {
+            super.addComponent(overlay);
+        }
         requestRepaint();
     }
 
@@ -213,4 +221,76 @@ public class CustomOverlay extends AbstractComponent {
         return overlayAlign;
     }
 
+    /*
+     * Methods inherited from AbstractComponentContainer. These are unnecessary
+     * (but mandatory). Most of them are not supported in this implementation.
+     */
+
+    /**
+     * Not supported in this implementation.
+     *
+     * @see com.vaadin.ui.AbstractComponentContainer#addComponent(com.vaadin.ui.Component)
+     * @throws UnsupportedOperationException
+     */
+    @Override
+    public void addComponent(Component c) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+
+    }
+
+    /**
+     * Not supported in this implementation.
+     *
+     * @see com.vaadin.ui.ComponentContainer#replaceComponent(com.vaadin.ui.Component,
+     *      com.vaadin.ui.Component)
+     * @throws UnsupportedOperationException
+     */
+    public void replaceComponent(Component oldComponent, Component newComponent)
+            throws UnsupportedOperationException {
+
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Not supported in this implementation
+     *
+     * @see com.vaadin.ui.AbstractComponentContainer#removeComponent(com.vaadin.ui.Component)
+     */
+    @Override
+    public void removeComponent(Component c)
+            throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+
+    }
+
+    /**
+     * This class only contains overlay components.
+     *
+     * @see com.vaadin.ui.ComponentContainer#getComponentIterator()
+     */
+    public Iterator<Component> getComponentIterator() {
+        return new Iterator<Component>() {
+
+            private Component currentOverlay = getOverlay();
+            private boolean first = currentOverlay == null;
+
+            public boolean hasNext() {
+                return !first;
+            }
+
+            public Component next() {
+                if (!first) {
+                    first = true;
+                    return currentOverlay;
+                } else {
+                    return null;
+                }
+            }
+
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
+
+    }
 }

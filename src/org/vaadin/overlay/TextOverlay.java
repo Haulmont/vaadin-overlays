@@ -7,14 +7,15 @@ import com.vaadin.ui.Label;
  * Server-side class for creating text overlays for other components.
  *
  * The overlays are strings rendered on the top of the specified component and
- * they can be aligned using the {@link #setComponentAnchor(com.vaadin.ui.Alignment)},
+ * they can be aligned using the
+ * {@link #setComponentAnchor(com.vaadin.ui.Alignment)},
  * {@link #setXOffset(int)} and {@link #setYOffset(int)} functions.
  *
  * @author Sami Ekblad
  *
  */
 
-public class TextOverlay extends CustomOverlay {
+public class TextOverlay extends CustomClickableOverlay {
     private static final long serialVersionUID = -4604714578885982118L;
 
     public static final int CONTENT_DEFAULT = Label.CONTENT_DEFAULT;
