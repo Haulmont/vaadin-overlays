@@ -5,6 +5,9 @@ import java.util.Set;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -23,6 +26,7 @@ import com.vaadin.terminal.gwt.client.ui.AlignmentInfo;
  * server are shown as HTML and mouse clicks are sent to the server.
  */
 public class VCustomOverlay extends SimplePanel implements Paintable, Container {
+
 
     public static final int ORIGO_TOP_LEFT = 0;
     public static final int ORIGO_TOP_RIGHT = 1;
@@ -63,12 +67,28 @@ public class VCustomOverlay extends SimplePanel implements Paintable, Container 
         overlay.setAutoHideEnabled(false);
         overlay.setAnimationEnabled(false);
         overlay.setModal(false);
+
+        Event.addNativePreviewHandler(new NativePreviewHandler() {
+
+            public void onPreviewNativeEvent(NativePreviewEvent event) {
+                int typeInt = event.getTypeInt();
+                // We're only listening for these
+                if (typeInt == Event.ONSCROLL) {
+                    VCustomOverlay.this.updateOverlayPosition();
+                }
+            }
+        });
     }
 
     /**
      * Called whenever an update is received from the server
      */
     public void updateFromUIDL(UIDL uidl, final ApplicationConnection client) {
+
+        // Custom visibility handling
+        if (uidl.getBooleanAttribute("invisible") && overlay != null) {
+            overlay.hide();
+        }
         if (client.updateComponent(this, uidl, false)) {
             return;
         }
@@ -85,6 +105,7 @@ public class VCustomOverlay extends SimplePanel implements Paintable, Container 
                 refCompEl = w.getElement();
             }
         }
+
 
         // Render the component
         final UIDL child = uidl.getChildUIDL(0);
@@ -148,7 +169,8 @@ public class VCustomOverlay extends SimplePanel implements Paintable, Container 
                     int w = Util.getRequiredWidth(wgt);
                     int h = Util.getRequiredHeight(wgt);
 
-                    ApplicationConnection.getConsole().log("POSITION: w=" + w + "h=" + h);
+                    ApplicationConnection.getConsole().log(
+                            "POSITION: w=" + w + "h=" + h);
 
                     int top = refY + y;
                     int left = refX + x;
@@ -203,10 +225,20 @@ public class VCustomOverlay extends SimplePanel implements Paintable, Container 
     }
 
     public boolean requestLayout(Set<Paintable> children) {
+        deferredUpdatePosition();
         return true;
     }
 
     public void updateCaption(Paintable component, UIDL uidl) {
         // No captions for overlays
     }
+
+    @Override
+    protected void onDetach() {
+        if (overlay != null) {
+            overlay.hide();
+        }
+        super.onDetach();
+    }
+
 }
