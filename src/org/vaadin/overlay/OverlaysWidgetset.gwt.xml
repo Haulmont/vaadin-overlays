@@ -18,7 +18,7 @@
      Google Chrome.
     -->
     
-    <stylesheet src="overlays/styles.css"/>
+    <!-- <stylesheet src="overlays/styles.css"/> -->
     <script src="overlays/overlays.js" />
 
 </module>

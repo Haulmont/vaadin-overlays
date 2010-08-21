@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Vaadin-License-Title: Apache License 2.0
 Implementation-Vendor: Sami Ekblad
 Implementation-Title: Overlays
-Implementation-Version: 0.9.6
+Implementation-Version: 0.9.8
 Vaadin-Package-Version: 1
 Vaadin-Widgetsets: org.vaadin.overlay.OverlaysWidgetset
 Class-Path: 
