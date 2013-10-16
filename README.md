@@ -1,4 +1,4 @@
 vaadin-overlays
 ===============
 
-Overlays for Vaadin 7.1
+Overlays for Vaadin 7.1.
