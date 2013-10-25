@@ -2,7 +2,6 @@ package org.vaadin.overlay;
 
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.terminal.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 
@@ -13,8 +12,8 @@ import com.vaadin.ui.CssLayout;
  * the click support.
  *
  * @author Sami Ekblad
- *
  */
+@SuppressWarnings("serial")
 public class CustomClickableOverlay extends CustomOverlay {
     private static final long serialVersionUID = -354623604620366005L;
     private CssLayout layout = new CssLayout();
@@ -22,13 +21,12 @@ public class CustomClickableOverlay extends CustomOverlay {
     private OverlayClickListener clickListener;
 
     public CustomClickableOverlay() {
-        layout.addListener(new ClickListener());
+        layout.addLayoutClickListener(new ClickListener());
         super.setOverlay(layout);
     }
 
     /**
-     * Create new overlay for a component. The image resource must be added
-     * later using {@link #setImage(Resource)}
+     * Create new overlay for a component.
      *
      * @param overlay
      * @param referenceComponent
@@ -36,8 +34,7 @@ public class CustomClickableOverlay extends CustomOverlay {
      * @see #setXOffset(int)
      * @see #setYOffset(int)
      */
-    public CustomClickableOverlay(Component overlay,
-            Component referenceComponent) {
+    public CustomClickableOverlay(Component overlay, Component referenceComponent) {
         this();
         setComponent(referenceComponent);
         setOverlay(overlay);
@@ -77,18 +74,15 @@ public class CustomClickableOverlay extends CustomOverlay {
 
     /**
      * Implementation of the LayoutClickListener to receive the clicks.
-     *
      */
     private class ClickListener implements LayoutClickListener {
-
-        private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = -3844465450135961729L;
 
         public void layoutClick(LayoutClickEvent event) {
             if (clickListener != null) {
                 clickListener.overlayClicked(CustomClickableOverlay.this);
             }
         }
-
     }
 
 }

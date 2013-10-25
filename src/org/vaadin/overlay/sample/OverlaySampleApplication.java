@@ -1,86 +1,81 @@
-package org.vaadin.overlay;
+package org.vaadin.overlay.sample;
 
-import com.vaadin.Application;
-import com.vaadin.terminal.ClassResource;
-import com.vaadin.terminal.Resource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Window;
+import com.vaadin.server.ClassResource;
+import com.vaadin.server.Resource;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
+import org.vaadin.overlay.CustomClickableOverlay;
+import org.vaadin.overlay.ImageOverlay;
+import org.vaadin.overlay.OverlayClickListener;
+import org.vaadin.overlay.TextOverlay;
 
-public class OverlaySampleApplication extends Application {
+public class OverlaySampleApplication extends UI {
 
     private static final long serialVersionUID = 7831853143147236971L;
 
     @Override
-    public void init() {
-        final Window mainWindow = new Window("Overlay Sample Application");
-        setMainWindow(mainWindow);
-
+    protected void init(VaadinRequest request) {
+        VerticalLayout layout = new VerticalLayout();
 
         final Label label = new Label("Alignment.TOP_LEFT");
-        mainWindow.addComponent(label);
+        layout.addComponent(label);
 
         for (int i = 0; i < 20; i++) {
 
             Button button = new Button("Sample Button");
-            mainWindow.addComponent(button);
+            layout.addComponent(button);
 
             final ImageOverlay io = new ImageOverlay(button);
-            Resource res = new ClassResource(this.getClass(), "icon-new.png",
-                    this);
+
+            Resource res = new ClassResource(this.getClass(), "../icon-new.png");
             io.setImage(res);
             io.setComponentAnchor(Alignment.TOP_LEFT); // Top left of the button
             io.setOverlayAnchor(Alignment.MIDDLE_CENTER); // Center of the image
             io.setClickListener(new OverlayClickListener() {
-
                 public void overlayClicked(CustomClickableOverlay overlay) {
-                    mainWindow.showNotification("ImageOverlay Clicked!");
+                    Notification.show("ImageOverlay Clicked!");
                 }
             });
-            mainWindow.addComponent(io);
+            layout.addComponent(io);
+            io.setEnabled(true);
 
             final TextOverlay to = new TextOverlay(button, "New!");
-            to.setComponentAnchor(Alignment.TOP_LEFT); // Top left of the button
+            to.setComponentAnchor(Alignment.MIDDLE_RIGHT); // Top right of the button
             to.setOverlayAnchor(Alignment.MIDDLE_CENTER); // Center of the image
             to.setClickListener(new OverlayClickListener() {
-
                 public void overlayClicked(CustomClickableOverlay overlay) {
-                    mainWindow.showNotification("TextOverlay Clicked!");
+                    Notification.show("TextOverlay Clicked!");
                 }
             });
-            mainWindow.addComponent(to);
+            layout.addComponent(to);
 
-            button.addListener(new Button.ClickListener() {
-
-                private static final long serialVersionUID = 1L;
-
+            button.addClickListener(new Button.ClickListener() {
                 public void buttonClick(ClickEvent event) {
                     Alignment a = io.getComponentAnchor();
                     String s = "";
-                    if (Alignment.TOP_LEFT == a) {
+                    if (Alignment.TOP_LEFT.equals(a)) {
                         a = Alignment.TOP_CENTER;
                         s = "TOP_CENTER";
-                    } else if (Alignment.TOP_CENTER == a) {
+                    } else if (Alignment.TOP_CENTER.equals(a)) {
                         a = Alignment.TOP_RIGHT;
                         s = "TOP_RIGHT";
-                    } else if (Alignment.TOP_RIGHT == a) {
+                    } else if (Alignment.TOP_RIGHT.equals(a)) {
                         a = Alignment.MIDDLE_RIGHT;
                         s = "MIDDLE_RIGHT";
-                    } else if (Alignment.MIDDLE_RIGHT == a) {
+                    } else if (Alignment.MIDDLE_RIGHT.equals(a)) {
                         a = Alignment.BOTTOM_RIGHT;
                         s = "BOTTOM_RIGHT";
-                    } else if (Alignment.BOTTOM_RIGHT == a) {
+                    } else if (Alignment.BOTTOM_RIGHT.equals(a)) {
                         a = Alignment.BOTTOM_CENTER;
                         s = "BOTTOM_CENTER";
-                    } else if (Alignment.BOTTOM_CENTER == a) {
+                    } else if (Alignment.BOTTOM_CENTER.equals(a)) {
                         a = Alignment.BOTTOM_LEFT;
                         s = "BOTTOM_LEFT";
-                    } else if (Alignment.BOTTOM_LEFT == a) {
+                    } else if (Alignment.BOTTOM_LEFT.equals(a)) {
                         a = Alignment.MIDDLE_LEFT;
                         s = "MIDDLE_LEFT";
-                    } else if (Alignment.MIDDLE_LEFT == a) {
+                    } else if (Alignment.MIDDLE_LEFT.equals(a)) {
                         a = Alignment.TOP_LEFT;
                         s = "TOP_LEFT";
                     }
@@ -88,8 +83,8 @@ public class OverlaySampleApplication extends Application {
                     label.setValue("Alignment." + s);
                 }
             });
-
         }
 
+        setContent(layout);
     }
 }
