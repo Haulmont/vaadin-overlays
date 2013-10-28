@@ -1,7 +1,6 @@
 package org.vaadin.overlay;
 
 import com.vaadin.annotations.JavaScript;
-import com.vaadin.annotations.StyleSheet;
 import com.vaadin.shared.ui.AlignmentInfo;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Alignment;
@@ -19,7 +18,7 @@ import java.util.Iterator;
  * This is the server-side part of the component.
  */
 @JavaScript("public/overlays/overlays.js")
-@StyleSheet("public/overlays/styles.css")
+//@StyleSheet("public/overlays/styles.css")     uncomment for sample app
 public class CustomOverlay extends AbstractComponentContainer {
     private static final long serialVersionUID = 4484572264185406155L;
 
