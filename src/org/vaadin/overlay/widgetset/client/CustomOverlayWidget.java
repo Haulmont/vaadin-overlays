@@ -188,4 +188,7 @@ public class CustomOverlayWidget extends SimplePanel {
         super.onDetach();
     }
 
+    public void setThemeName(String themeName) {
+        overlay.addStyleName(themeName);
+    }
 }

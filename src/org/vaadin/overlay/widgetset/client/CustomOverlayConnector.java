@@ -40,6 +40,13 @@ public class CustomOverlayConnector extends AbstractComponentContainerConnector 
     }
 
     @Override
+    protected void updateWidgetStyleNames() {
+        super.updateWidgetStyleNames();
+        String themeName = getConnection().getConfiguration().getThemeName();
+        getWidget().setThemeName(themeName);
+    }
+
+    @Override
     public void onStateChanged(StateChangeEvent stateChangeEvent) {
         super.onStateChanged(stateChangeEvent);
         if (stateChangeEvent.hasPropertyChanged("x")) {

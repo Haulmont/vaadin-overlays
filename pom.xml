@@ -6,7 +6,7 @@
     <groupId>com.haulmont.thirdparty</groupId>
     <artifactId>overlays</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>Vaadin Overlays Addon</name>
 
     <properties>
