@@ -4,5 +4,5 @@ Implementation-Vendor: Sami Ekblad
 Implementation-Title: Overlays
 Implementation-Version: 1.0.0
 Vaadin-Package-Version: 1
-Vaadin-Widgetsets: org.vaadin.overlay.OverlaysWidgetset
+Vaadin-Widgetsets: org.vaadin.overlay.widgetset.OverlaysWidgetset
 
