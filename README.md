@@ -1,7 +1,8 @@
 vaadin-overlays
 ===============
 
-Overlays for Vaadin 7.1.
+Overlays for Vaadin 7.6+.
+Demo: http://sami.virtuallypreinstalled.com/overlays/
 
 Installation
 ------------
