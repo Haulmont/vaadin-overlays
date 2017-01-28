@@ -19,7 +19,6 @@ package org.vaadin.overlay.widgetset.client;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
-import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentContainerConnector;
 import com.vaadin.shared.Connector;
@@ -95,8 +94,6 @@ public class CustomOverlayConnector extends AbstractComponentContainerConnector 
     @Override
     public void onUnregister() {
         super.onUnregister();
-
-        VConsole.log(">> Unregister");
 
         getWidget().hideOverlay();
     }
