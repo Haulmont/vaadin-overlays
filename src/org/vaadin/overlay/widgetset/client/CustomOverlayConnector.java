@@ -19,6 +19,7 @@ package org.vaadin.overlay.widgetset.client;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorHierarchyChangeEvent;
+import com.vaadin.client.VConsole;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.AbstractComponentContainerConnector;
 import com.vaadin.shared.Connector;
@@ -28,22 +29,9 @@ import org.vaadin.overlay.CustomOverlay;
 
 import java.util.List;
 
-/**
- * @author nevinsky
- * @version $Id$
- */
 @Connect(CustomOverlay.class)
 public class CustomOverlayConnector extends AbstractComponentContainerConnector {
     private static final long serialVersionUID = -1812155693173030620L;
-
-    public CustomOverlayConnector() {
-    }
-
-    @Override
-    protected Widget createWidget() {
-        CustomOverlayWidget widget = new CustomOverlayWidget();
-        return widget;
-    }
 
     @Override
     public CustomOverlayWidget getWidget() {
@@ -58,7 +46,8 @@ public class CustomOverlayConnector extends AbstractComponentContainerConnector 
     @Override
     protected void updateWidgetStyleNames() {
         super.updateWidgetStyleNames();
-        String themeName = getConnection().getConfiguration().getThemeName();
+
+        String themeName = getConnection().getUIConnector().getActiveTheme();
         getWidget().setThemeName(themeName);
     }
 
@@ -104,17 +93,19 @@ public class CustomOverlayConnector extends AbstractComponentContainerConnector 
     }
 
     @Override
-    public void onConnectorHierarchyChange(ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
-//        List<ComponentConnector> children = getChildComponents();
-//        CustomOverlayWidget widget = getWidget();
-//        widget.clear();
-//        if (children != null && children.size() > 0) {
-//            widget.overlay = children.get(0);
-//        } else {
-//            widget.overlay = null;
-//        }
+    public void onUnregister() {
+        super.onUnregister();
 
-        getWidget().deferredUpdatePosition();
+        VConsole.log(">> Unregister");
+
+        getWidget().hideOverlay();
+    }
+
+    @Override
+    public void onConnectorHierarchyChange(ConnectorHierarchyChangeEvent connectorHierarchyChangeEvent) {
+        if (getState().component != null) {
+            getWidget().deferredUpdatePosition();
+        }
     }
 
     @Override

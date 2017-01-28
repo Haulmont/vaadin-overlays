@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vaadin.client.Util;
+import com.vaadin.client.WidgetUtil;
 import com.vaadin.shared.ui.AlignmentInfo;
 
 import java.util.logging.Logger;
@@ -57,7 +57,6 @@ public class CustomOverlayWidget extends SimplePanel {
      * then handle any initialization relevant to Vaadin.
      */
     public CustomOverlayWidget() {
-        super();
         setWidget(new HTML()); // Seems that we need this one
         overlay = new PopupPanel();
         overlay.addStyleName(CLASSNAME);
@@ -66,7 +65,6 @@ public class CustomOverlayWidget extends SimplePanel {
         overlay.setModal(false);
 
         Event.addNativePreviewHandler(new NativePreviewHandler() {
-
             public void onPreviewNativeEvent(NativePreviewEvent event) {
                 int typeInt = event.getTypeInt();
                 // We're only listening for these
@@ -77,62 +75,6 @@ public class CustomOverlayWidget extends SimplePanel {
         });
     }
 
-    /**
-     * Called whenever an update is received from the server
-     */
-//    public void updateFromUIDL(UIDL uidl, final ApplicationConnection client) {
-//
-//        // Custom visibility handling
-//        if (uidl.getBooleanAttribute("invisible") && overlay != null) {
-//            overlay.hide();
-//        }
-//        if (client.updateComponent(this, uidl, false)) {
-//            return;
-//        }
-//
-//        // Find the reference component
-//        if (uidl.hasAttribute("comp")) {
-//            Paintable refComp = client.getPaintable(uidl
-//                    .getStringAttribute("comp"));
-//            if (refComp != null) {
-//                Widget w = (Widget) refComp;
-//                if (w instanceof VCustomOverlay) {
-//                    w = ((VCustomOverlay) w).getOverlayWidget();
-//                }
-//                refCompEl = w.getElement();
-//            }
-//        }
-//
-//
-//        // Render the component
-//        final UIDL child = uidl.getChildUIDL(0);
-//        if (child != null) {
-//            Paintable p = client.getPaintable(child);
-//            Widget w = overlay.getWidget();
-//            if (p != w && w != null) {
-//                client.unregisterPaintable((Paintable) w);
-//                overlay.clear();
-//            }
-//            overlay.setWidget((Widget) p);
-//            overlay.show();
-//            p.updateFromUIDL(child, client);
-//        } else {
-//            overlay.hide();
-//        }
-//
-//        Widget wgt = getOverlayWidget();
-//        int w = Util.getRequiredWidth(wgt);
-//        int h = Util.getRequiredHeight(wgt);
-//        ApplicationConnection.getConsole().log("PAINT: w=" + w + "h=" + h);
-//
-//        // Position the component
-//        x = uidl.getIntAttribute("x");
-//        y = uidl.getIntAttribute("y");
-//        align = new AlignmentInfo(uidl.getIntAttribute("align"));
-//        overlayAlign = new AlignmentInfo(uidl.getIntAttribute("overlayAlign"));
-//
-//        deferredUpdatePosition();
-//    }
     protected Widget getOverlayWidget() {
         return overlay.getWidget();
     }
@@ -161,8 +103,8 @@ public class CustomOverlayWidget extends SimplePanel {
                     // Calculate the position based on over component size and
                     // the alignment point.
                     Widget wgt = getOverlayWidget();
-                    int w = Util.getRequiredWidth(wgt);
-                    int h = Util.getRequiredHeight(wgt);
+                    int w = WidgetUtil.getRequiredWidth(wgt);
+                    int h = WidgetUtil.getRequiredHeight(wgt);
 
                     log.info("POSITION: w=" + w + "h=" + h);
 
@@ -206,5 +148,11 @@ public class CustomOverlayWidget extends SimplePanel {
 
     public void setThemeName(String themeName) {
         overlay.addStyleName(themeName);
+    }
+
+    public void hideOverlay() {
+        if (overlay != null) {
+            overlay.hide();
+        }
     }
 }

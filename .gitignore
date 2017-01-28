@@ -1,0 +1,7 @@
+.idea/
+*.iml
+*.iws
+*.ipr
+WebContent/VAADIN/
+WebContent/WEB-INF/lib/
+target/
