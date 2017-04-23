@@ -16,14 +16,14 @@
 
 package org.vaadin.overlay.widgetset.client;
 
-import com.vaadin.shared.AbstractComponentState;
 import com.vaadin.shared.Connector;
+import com.vaadin.shared.ui.AbstractComponentContainerState;
 import com.vaadin.shared.ui.AlignmentInfo;
 
 /**
  * @author nevinsky
  */
-public class CustomOverlayState extends AbstractComponentState {
+public class CustomOverlayState extends AbstractComponentContainerState {
     public int x = 0;
     public int y = 0;
     public int alignBitMask = AlignmentInfo.TOP_LEFT.getBitMask();
